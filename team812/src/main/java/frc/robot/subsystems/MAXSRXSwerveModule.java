@@ -10,6 +10,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.Subsystem;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkLowLevel.MotorType;
@@ -24,7 +25,7 @@ import com.ctre.phoenix6.hardware.CANcoder;
 import frc.robot.Constants.ModuleConstants;
 import frc.robot.Constants.CANConstants;
 
-public class MAXSRXSwerveModule {
+public class MAXSRXSwerveModule implements Subsystem {
   private final CANSparkMax m_drivingSparkMax;
   private final CANSparkMax m_turningSparkMax;
 
@@ -127,6 +128,7 @@ public class MAXSRXSwerveModule {
 
     m_drivingEncoder.setPosition(0);
   }
+
   /**
    * Helper function that converts CANCoder output into an angle in radians
    * in the range of 0 to 2*pi.
@@ -215,5 +217,14 @@ public class MAXSRXSwerveModule {
   /** Zeroes all the SwerveModule encoders. */
   public void resetEncoders() {
     m_drivingEncoder.setPosition(0);
+  }
+
+  // This method will be called once per scheduler run
+  @Override
+  public void periodic() {
+    // Shuffleboard debugging
+    CANCoderPositionRadians();
+    // This should keep printing the info we want, even while disabled
+    // SmartDashboard.putNumber("lf_angle_degrees", CANCoderPosition/(2*Math.PI)*360.0);
   }
 }
